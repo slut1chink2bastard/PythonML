@@ -13,7 +13,6 @@ theta_OLS = np.linalg.inv(X_design.T.dot(X_design)).dot(X_design.T).dot(y)
 
 print(X_design)
 print(theta_OLS)
-print(theta_OLS)
 
 #get the plpt
 X_test = np.array([[0], [2]])
