@@ -1,5 +1,5 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 x = 2*np.random.rand(100,1)
 y = 4 + 3*x + np.random.randn(100,1)
@@ -12,6 +12,7 @@ X_design = np.c_[np.ones((100, 1)), x]
 theta_OLS = np.linalg.inv(X_design.T.dot(X_design)).dot(X_design.T).dot(y)
 
 print(X_design)
+print(theta_OLS)
 print(theta_OLS)
 
 #get the plpt
