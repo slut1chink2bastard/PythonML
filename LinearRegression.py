@@ -64,11 +64,13 @@ plt.axis([-3, 3, -5, 10])
 # plt.plot(fitted_x, y_predict, "r--",label="predication")
 # plt.legend()
 plt.show()
+
 '''
 Overfitting
 '''
 
 # Polynomial Regression comparision on Degree
+
 for style, width, degree in (("g--", 1, 1), ("b--", 5, 2), ("r--", 3, 10)):
     poly_features = PolynomialFeatures(degree=degree, include_bias=False)
     std = StandardScaler()
@@ -86,7 +88,6 @@ plt.show()
 
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
-
 
 def plot_sampleCount_RMSE_curve(regression, x, y):
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=0)
@@ -107,7 +108,60 @@ def plot_sampleCount_RMSE_curve(regression, x, y):
 '''
 as the sample count grows, (the train error - the train error) reduces, the likelihood of overfitting reduces 
 '''
-lin_reg = LinearRegression()
-plot_sampleCount_RMSE_curve(lin_reg, x, y)
+# lin_reg = LinearRegression()
+# plot_sampleCount_RMSE_curve(lin_reg, x, y)
 plt.axis([0, 100, 0, 5])
+# plt.show()
+
+
+# Regularization --> solving the overfitting problem
+lin_reg = LinearRegression()
+polynomial_reg = Pipeline(
+    [('poly_features', PolynomialFeatures(degree=15, include_bias=False)), ('StandardScaler', std),
+     ('lin_reg', lin_reg)])
+plot_sampleCount_RMSE_curve(polynomial_reg, x, y)
+plt.axis([0, 100, 0, 100])
+# plt.show()
+
+# ridge regression
+from sklearn.linear_model import Ridge
+
+np.random.seed(42)
+count = 20
+x = 3 * np.random.randn(count, 1)
+y = 0.5 * x + np.random.randn(count, 1) + 1
+x_test = np.linspace(0, 3, 100).reshape(100, 1)
+
+
+def plot_model(model_class, alpha, **model_kargs):
+    for alpha, style in zip(alpha, ("b--", "g--", "r--")):
+        model = Pipeline([('poly_features', PolynomialFeatures(degree=3, include_bias=False)), ('StandardScaler', std),
+                          ('lin_reg', model_class(alpha, **model_kargs))])
+        model.fit(x, y)
+        y_predict = model.predict(x_test)
+        plt.plot(x_test, y_predict, style, label="aplha = {}".format(alpha))
+    plt.plot(x, y, "b.")
+    plt.legend()
+
+
+plt.figure(figsize=(10, 5))
+plt.subplot(121)
+plt.axis([0, 6, 0, 10])
+plot_model(Ridge, (0, 10 ** -5, 1))
+# plt.show()
+'''
+In ridge regression, we actually added parameter alpha to balance the weight
+we could see the red line is most generalized, which is likely to perform better in the test.
+'''
+
+# lasso (least absolute shrinkage and selection operator)
+from sklearn.linear_model import Lasso
+
+plt.figure(figsize=(10, 5))
+plt.subplot(121)
+plt.axis([0, 3, 0, 4])
+plot_model(Lasso, (10 ** -5, 1, 1.5))
 plt.show()
+'''
+right now just another way to 
+'''
