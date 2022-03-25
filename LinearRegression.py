@@ -81,3 +81,33 @@ plt.plot(x, y, ".b")
 plt.axis([-3, 3, -5, 10])
 plt.legend()
 plt.show()
+
+# count of the sample
+
+from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import train_test_split
+
+
+def plot_sampleCount_RMSE_curve(regression, x, y):
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=0)
+    train_errors, test_errors = [], []
+    for i in range(1, len(x_train)):
+        regression.fit(x_train[:i], y_train[:i])
+        y_train_predict = regression.predict(x_train[:i])
+        y_test_predict = regression.predict(x_test)
+        train_errors.append(np.sqrt(mean_squared_error(y_train[:i], y_train_predict)))
+        test_errors.append(np.sqrt(mean_squared_error(y_test, y_test_predict)))
+    plt.plot(train_errors, 'r--', linewidth=2, label="train_error")
+    plt.plot(test_errors, 'b--', linewidth=2, label="test_errors")
+    plt.xlabel = "training sample count"
+    plt.ylabel = "RMSE"
+    plt.legend()
+
+
+'''
+as the sample count grows, (the train error - the train error) reduces, the likelihood of overfitting reduces 
+'''
+lin_reg = LinearRegression()
+plot_sampleCount_RMSE_curve(lin_reg, x, y)
+plt.axis([0, 100, 0, 5])
+plt.show()
