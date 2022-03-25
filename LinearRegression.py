@@ -162,6 +162,13 @@ plt.subplot(121)
 plt.axis([0, 3, 0, 4])
 plot_model(Lasso, (10 ** -5, 1, 1.5))
 plt.show()
+
 '''
-right now just another way to 
+Summary;
+1.regression equation
+2.gradient decent   learning rate
+3.standardzation normalization faster
+4.minibatch, batch count greater ,the better result
+5.polynomial 
+6.regularization --> let the weight be more smooth --> the equation will be more generalized
 '''
