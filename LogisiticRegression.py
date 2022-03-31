@@ -60,3 +60,22 @@ plt.axis([2.9, 7, 0.8, 2.7])
 plt.text(3.5, 1.75, "not vir", fontsize=16)
 plt.text(6.5, 1.5, "vir", fontsize=16)
 plt.show()
+
+'''
+Multiclass classification  Softmax to calculate the probability
+'''
+# TODO: figure out how to get the multiclass classification visualization
+x = iris["data"][:, (2, 3)]
+y = iris["target"]
+softmax_res = LogisticRegression(multi_class="multinomial", solver="lbfgs")
+softmax_res.fit(x, y)
+plt.figure(figsize=(10, 4))
+plt.plot(x[y == 0, 0], x[y == 0, 1], "bs")
+plt.plot(x[y == 1, 0], x[y == 1, 1], "g^")
+z = y_proba[:, 1].reshape(x1.shape)
+contour = plt.contour(x1, x2, z)
+plt.clabel(contour, inline=1)
+plt.axis([2.9, 7, 0.8, 2.7])
+plt.text(3.5, 1.75, "not vir", fontsize=16)
+plt.text(6.5, 1.5, "vir", fontsize=16)
+plt.show()
